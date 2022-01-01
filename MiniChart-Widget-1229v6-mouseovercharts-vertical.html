@@ -1,0 +1,865 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mini-Charts Accordian Widget 1229</title>
+  <link rel="stylesheet" href="./style.css">
+   
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!--<link rel="stylesheet" type="text/css" href="styles.css" />-->
+  
+  <link href="https://fonts.googleapis.com/css?family=Red+Hat+Text:400,500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,500,600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+
+    <title>Charts</title>
+</head>
+  
+
+</head>
+<style>
+
+@charset "UTF-8";
+.accordion {
+  background-color: #000000;
+  color: #f3f3f3;
+  cursor: pointer;
+  padding: 15px;
+  border: 1px white;
+  text-align: left;
+  outline: none;
+  font-size: 15px;
+  transition: 0.4s;
+  border-radius: 10px;
+  font-family: "Roboto", sans-serif;
+  font-weight:600px;
+  font-size:1em;
+  font-style:bold;
+  
+}
+
+.active, .accordion:hover {
+  background-color: #000;
+}
+
+.accordion:after {
+  content: "+";
+  color: #777;
+  font-weight: bold;
+  float: right;
+  margin-left: 5px;
+}
+
+.active:after {
+  content: "−";
+}
+
+.panel {
+  padding: 0 0px;
+  background-color: #000000;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.2s ease-out;
+  border-radius: 10px;
+}
+
+body {
+  background-color: #000000;
+  margin: 5px;
+  font-family: "Roboto", sans-serif;
+  padding:5px;
+}
+
+h3 {
+  font-size: 1.1em;
+  color: #f3f3f3;
+}
+
+h2 {
+  font-size: 1.1em;
+  color: #f3f3f3;
+}
+
+h1 {
+  font-size: 1.1em;
+  color: #f3f3f3;
+}
+
+h1 h2,
+h3 h4,
+h5 p {
+  color: #f3f3f3;
+}
+
+.container {
+  display: flex;
+  justify-content: center;
+}
+
+cards {
+  width: 100%;
+  height: 80%;
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  padding-top: 30px;
+  padding-bottom: 30px;
+  color: white;
+  background-color: #000;
+}
+
+.btc,
+.cosmos,
+.ethereum,
+.solana {
+  display: grid;
+  max-width: 400px;
+  min-width: 300px;
+  grid-template-columns: 1fr;
+  grid-template-rows: minmax(50px, 60px) 1fr;
+  grid-template: "info" "chart";
+  border-radius: 10px;
+}
+
+.btc {
+  box-shadow: 10px 10px 20px 1px rgba(247, 147, 26, 0.15);
+}
+
+.cosmos {
+  box-shadow: 10px 10px 20px 1px rgba(0, 29, 252, 0.25);
+}
+
+.ethereum {
+  box-shadow: 10px 10px 20px 1px rgba(78, 56, 216, 0.25);
+}
+
+.solana {
+  box-shadow: 10px 10px 20px 1px rgba(255, 0, 255, 0.2);
+}
+
+.asset-info {
+  grid-area: info;
+  display: inline-flex;
+  justify-content: space-between;
+  align-items: left;
+  padding: 0 5% 0 5%;
+  margin-left:0%;
+}
+
+.asset-price {
+  font-size: 1em;
+  color: #f3f3f3;
+  margin-right:5px;
+  align-items: right;
+}
+
+.title {
+  display: inline-flex;
+}
+
+card h1 {
+  margin-left: 0px;
+  margin-top: 0px;
+}
+
+#btcChart,
+#cosmosChart,
+#ethereumChart,
+#solanaChart {
+  grid-area: chart;
+  border-radius: 0px 0px 30px 30px;
+  margin-top: auto;
+  font-family: "Roboto", sans-serif;
+  font-weight: 600;
+}
+
+
+</style>
+
+
+
+  
+<body>
+  <container class="container">
+   
+
+    <cards class="cards">
+     
+     <bitcoin style="width: 32%" class="btc">
+     <button class="accordion" style="float:right;">
+        <!--<div class="title">-->
+            <img src="https://coinicon2.s3.us-east-2.amazonaws.com/BTC.png" style="width:20px;height:20px;"> 
+           <div style="display:inline-block;font-weight:600;font-family:Roboto; margin-left:5px;" >Bitcoin</div>
+     <!-- </div>-->
+          
+                <card class="asset-info" style="margin-left:25%;">
+                  <div class="asset-price" id="btcPrice" style="display:inline-block;"></div>
+                   <div class="asset-price" id="btcChange" style="display:inline-block;margin-left:10px;"></div>
+                </div>
+        <div class="details"></div>
+     
+        </button>
+    </card> 
+        
+       <div class="panel">
+      
+            <canvas id="btcChart"></canvas>
+            </div>
+        </bitcoin>
+  
+   
+      <br><br>
+
+
+   <ethereum style="width: 32%" class="ethereum">
+    <button class="accordion" style="float:right;">
+    <!--<div class="title">-->
+        <img src="https://coinicon2.s3.us-east-2.amazonaws.com/ETH.png" style="width:20px;height:20px;"> 
+        <div style="display:inline-block;font-weight:600;margin-left:5px;">Ethereum</div>
+    <card class="asset-info" style="margin-left:22%;">
+        <div class="asset-price" id="ethPrice" style="display:inline-block;"></div>
+        <div class="asset-price" id="ethChange" style="display:inline-block;;margin-left:10px;"></div>
+      </div>
+                <div class="details"></div>
+      </button>
+            
+         </card>
+      <div class="panel">
+      
+            <canvas id="ethereumChart"></canvas>
+          </div>
+        </ethereum>
+          
+      
+      <br><br>
+
+    <solana style="width: 32%" class="solana">
+      
+      <button class="accordion"  style="float:right;">
+     <!--<div class="title">-->
+          <img src="https://coinicon2.s3.us-east-2.amazonaws.com/SOL.png" style="width:20px;height:20px;"> 
+          <div style="display:inline-block;font-weight:600;margin-left:5px;">Solana</div>
+        <card class="asset-info" style="margin-left:27%;">
+            <div class="asset-price" id="solPrice" style="display:inline-block;"></div>
+            <div class="asset-price" id="solChange"style="display:inline-block;;margin-left:10px;"></div>
+           </div>
+        <div class="details"></div>
+     </button>
+   </card>
+
+       <div class="panel">
+      
+         <canvas id="solanaChart"></canvas>
+     </div>
+        </solana>
+      
+    
+      <br><br>
+
+    <cosmos style="width: 32%" class="cosmos">
+
+      <button class="accordion"   style="float:right;">
+       <!--<div class="title">--->
+         <img src="https://coinicon2.s3.us-east-2.amazonaws.com/ATOM.png" style="width:20px;height:20px;"> 
+         <div style="display:inline-block;font-weight:600;margin-left:5px;">Cosmos</div>
+   <card class="asset-info" style="margin-left:25%;">
+     <div class="asset-price" id="atomPrice" style="display:inline-block;"></div>
+     <div class="asset-price" id="atomChange" style="display:inline-block;;margin-left:10px;"></div>
+     </div>
+       <div class="details"></div>
+    </button>
+  </card>
+
+      <div class="panel"> 
+         <canvas id="cosmosChart"></canvas>
+      </div>
+     </cosmos>
+
+   <br><br>
+    
+    </cards>
+
+  </container>
+
+
+</body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.bundle.js"></script>
+<script src="app.js"></script>
+</html>
+<!-- partial -->
+  <script  src="./script.js"></script>
+
+</body>
+
+<script>
+
+/// Toggle
+var acc = document.getElementsByClassName("accordion");
+var i;
+
+for (i = 0; i < acc.length; i++) {
+  acc[i].addEventListener("click", function() {
+    this.classList.toggle("active");
+    var panel = this.nextElementSibling;
+    if (panel.style.maxHeight) {
+      panel.style.maxHeight = null;
+    } else {
+      panel.style.maxHeight = panel.scrollHeight + "px";
+    } 
+  });
+}
+
+
+///  Calling API and modeling data for each chart ///
+const btcData = async () => {
+  const response = await fetch('https://min-api.cryptocompare.com/data/v2/histominute?fsym=BTC&tsym=USDT&limit=1440&aggregate=1&api_key=4733a13eefe0ebb786b84a22b031cdb5571f88bb2aa5a5421de5e4c41f313200');
+  const json = await response.json();
+  const data = json.Data.Data
+  const times = data.map(obj => obj.time*1000)
+  const prices = data.map(obj => obj.close)
+  const opens = data.map(obj => obj.open)
+  return {
+    times,
+    prices,
+    opens
+  }
+}
+
+
+const cosmosData = async () => {
+  const response = await fetch('https://min-api.cryptocompare.com/data/v2/histominute?fsym=ATOM&tsym=USDT&limit=144&aggregate=10&api_key=4733a13eefe0ebb786b84a22b031cdb5571f88bb2aa5a5421de5e4c41f313200');
+  const json = await response.json();
+  const data = json.Data.Data
+  const opens = data.map(obj => obj.open)
+  const times = data.map(obj => obj.time*1000)
+  const prices = data.map(obj => obj.close)
+  return {
+    times,
+    prices,
+    opens
+  }
+}
+
+
+const ethereumData = async () => {
+  const response = await fetch('https://min-api.cryptocompare.com/data/v2/histominute?fsym=ETH&tsym=USDT&limit=144&aggregate=10&api_key=4733a13eefe0ebb786b84a22b031cdb5571f88bb2aa5a5421de5e4c41f313200');
+  const json = await response.json();
+  const data = json.Data.Data
+  const opens = data.map(obj => obj.open)
+  const times = data.map(obj => obj.time*1000)
+  const prices = data.map(obj => obj.close)
+  return {
+    times,
+    prices,
+    opens
+  }
+}
+
+
+const solanaData = async () => {
+  const response = await fetch('https://min-api.cryptocompare.com/data/v2/histominute?fsym=SOL&tsym=USDT&limit=144&aggregate=10&api_key=4733a13eefe0ebb786b84a22b031cdb5571f88bb2aa5a5421de5e4c41f313200');
+  const json = await response.json();
+  const data = json.Data.Data
+  const opens = data.map(obj => obj.open)
+  const times = data.map(obj => obj.time*1000)
+  const prices = data.map(obj => obj.close)
+  return {
+    times,
+    prices,
+    opens
+  }
+}
+
+
+/// Error handling ///
+function checkStatus(response) {
+  if (response.ok) {
+    return Promise.resolve(response);
+  } else {
+    return Promise.reject(new Error(response.statusText));
+  }
+}
+
+
+
+/// Charts ///
+let createBtcChart
+let createCosmosChart
+let createEthereumChart
+let createSolanaChart
+
+async function printBtcChart() {
+  let { times, prices } = await btcData()
+
+  let btcChart = document.getElementById('btcChart').getContext('2d');
+
+  let gradient = btcChart.createLinearGradient(0, 0, 0, 400);
+
+  gradient.addColorStop(0, 'rgba(247,147,26,.5)');
+  gradient.addColorStop(.425, 'rgba(255,193,119,0)');
+
+  Chart.defaults.global.defaultFontFamily = 'Red Hat Text';
+  Chart.defaults.global.defaultFontSize = 12;
+
+  createBtcChart = new Chart(btcChart, {
+    type: 'line',
+    data: {
+      labels: times,
+      datasets: [{
+        label: 'Price $',
+        data: prices,
+        backgroundColor: gradient,
+        borderColor: 'rgba(247,147,26,1)',
+        borderJoinStyle: 'round',
+        borderCapStyle: 'round',
+        borderWidth: 2,
+        pointRadius: 0,
+        pointHitRadius: 10,
+        lineTension: .2,
+      }]
+    },
+
+    options: {
+      title: {
+        display: false,
+        text: 'Chart',
+        fontSize: 35
+      },
+
+      legend: {
+        display: false
+      },
+
+      layout: {
+        padding: {
+          left: 0,
+          right: 0,
+          top: 0,
+          bottom: 0
+        }
+      },
+
+      scales: {
+        xAxes: [{
+          type: 'time',
+          distribution: 'series',
+          display: false,
+          ticks: {
+                minRotation: 90,
+                autoskip: false,
+                autoSkipPadding: 0
+              },
+          gridLines: {
+          color: "rgba(255, 255, 255, 0)",
+         }
+        }],
+        yAxes: [{
+          display: false,
+          gridLines: {}
+        }]
+      },
+
+      tooltips: {
+        mode: 'index',
+        callbacks: {
+          //This removes the tooltip title
+          //title: function() {}
+       },
+        //this removes legend color
+        displayColors: false,
+        yPadding: 10,
+        xPadding: 10,
+        position: 'nearest',
+        caretSize: 10,
+        backgroundColor: 'rgba(255,255,255,.5)',
+        bodyFontSize: 15,
+        bodyFontColor: '#fffff' 
+      }
+    }
+  });
+}
+
+
+
+async function printEthereumChart() {
+  let { times, prices } = await ethereumData()
+
+  let ethereumChart = document.getElementById('ethereumChart').getContext('2d');
+
+  let gradient = ethereumChart.createLinearGradient(0, 0, 0, 400);
+
+  gradient.addColorStop(0, 'rgba(78,56,216,.5)');
+  gradient.addColorStop(.425, 'rgba(118,106,192,0)');
+
+  Chart.defaults.global.defaultFontFamily = 'Red Hat Text';
+  Chart.defaults.global.defaultFontSize = 12;
+
+  createEthereumChart = new Chart(ethereumChart, {
+    type: 'line',
+    data: {
+      labels: times,
+      datasets: [{
+        label: 'Price $',
+        data: prices,
+        backgroundColor: gradient,
+        borderColor: 'rgba(118,106,192,1)',
+        borderJoinStyle: 'round',
+        borderCapStyle: 'round',
+        borderWidth: 2,
+        pointRadius: 0,
+        pointHitRadius: 10,
+        lineTension: .2,
+      }]
+    },
+
+    options: {
+      title: {
+        display: false,
+        text: 'Chart',
+        fontSize: 35
+      },
+
+      legend: {
+        display: false
+      },
+
+      layout: {
+        padding: {
+          left: 0,
+          right: 0,
+          top: 0,
+          bottom: 0
+        }
+      },
+
+      scales: {
+        xAxes: [{
+          type: 'time',
+          distribution: 'series',
+          display: false,
+          ticks: {
+                minRotation: 90,
+                autoskip: false,
+                autoSkipPadding: 0
+              },
+           fontSize: 5,
+           gridLines: {
+            color: "rgba(255, 255, 255, 0)",
+            }
+        }],
+        yAxes: [{
+          display: false,
+          gridLines: {}
+        }]
+      },
+
+      tooltips: {
+        mode: 'index',
+        callbacks: {
+          //This removes the tooltip title
+          //title: function() {}
+       },
+        //this removes legend color
+        displayColors: false,
+        yPadding: 10,
+        xPadding: 10,
+        position: 'nearest',
+        caretSize: 10,
+        backgroundColor: 'rgba(255,255,255,.5)',
+        bodyFontSize: 15,
+        bodyFontColor: '#fffff' 
+      }
+    }
+  });
+}
+
+
+
+async function printSolanaChart() {
+  let { times, prices } = await solanaData()
+
+  let solanaChart = document.getElementById('solanaChart').getContext('2d');
+
+  let gradient = solanaChart.createLinearGradient(0, 0, 0, 400);
+
+  gradient.addColorStop(0, 'rgba(78,56,216,.5)');
+  gradient.addColorStop(.425, 'rgba(255,0,255,0)');
+
+  Chart.defaults.global.defaultFontFamily = 'Red Hat Text';
+  Chart.defaults.global.defaultFontSize = 12;
+
+  createSolanaChart = new Chart(solanaChart, {
+    type: 'line',
+    data: {
+      labels: times,
+      datasets: [{
+        label: 'Price $',
+        data: prices,
+        backgroundColor: gradient,
+        borderColor: 'rgba(255,0,255,1)',
+        borderJoinStyle: 'round',
+        borderCapStyle: 'round',
+        borderWidth: 2,
+        pointRadius: 0,
+        pointHitRadius: 10,
+        lineTension: .2,
+      }]
+    },
+
+    options: {
+      title: {
+        display: false,
+        text: 'Chart',
+        fontSize: 35
+      },
+
+      legend: {
+        display: false
+      },
+
+      layout: {
+        padding: {
+          left: 0,
+          right: 0,
+          top: 0,
+          bottom: 0
+        }
+      },
+
+      scales: {
+        xAxes: [{
+         type: 'time',
+          distribution: 'series',
+          display: false,
+          ticks: {
+                minRotation: 90,
+                autoskip: false,
+                autoSkipPadding: 0
+              },
+           
+          
+             
+             fontSize: 5,
+          gridLines: {}
+        }],
+        yAxes: [{
+          display: false,
+          gridLines: {
+         color: "rgba(255, 255, 255, 0)",
+         }
+        }]
+      },
+
+      tooltips: {
+        mode: 'index',
+        callbacks: {
+          //This removes the tooltip title
+          //title: function() {}
+       },
+        //this removes legend color
+        displayColors: false,
+        yPadding: 10,
+        xPadding: 10,
+        position: 'nearest',
+        caretSize: 10,
+        backgroundColor: 'rgba(255,255,255,.5)',
+        bodyFontSize: 15,
+        bodyFontColor: '#ffffff' 
+      }
+    }
+  });
+}
+
+
+
+
+async function printCosmosChart() {
+  let { times, prices } = await cosmosData()
+
+  let cosmosChart = document.getElementById('cosmosChart').getContext('2d');
+
+  let gradient = cosmosChart.createLinearGradient(0, 0, 0, 400);
+
+  gradient.addColorStop(0, 'rgba(4,17,122,.5)');
+  gradient.addColorStop(.425, 'rgba(0,29,252,0)');
+
+  Chart.defaults.global.defaultFontFamily = 'Red Hat Text';
+  Chart.defaults.global.defaultFontSize = 12;
+
+  createCosmosChart = new Chart(cosmosChart, {
+    type: 'line',
+    data: {
+      labels: times,
+      datasets: [{
+        label: "Price $",
+        data: prices,
+        backgroundColor: gradient,
+        borderColor: 'rgba(0,29,252,1)',
+        borderJoinStyle: 'round',
+        borderCapStyle: 'round',
+        borderWidth: 2,
+        pointRadius: 0,
+        pointHitRadius: 10,
+        lineTension: .2,
+      }]
+    },
+
+    options: {
+      title: {
+        display: false,
+        text: 'Chart',
+        fontSize: 35
+      },
+
+      legend: {
+        display: false
+      },
+
+      layout: {
+        padding: {
+          left: 0,
+          right: 0,
+          top: 0,
+          bottom: 0
+        }
+      },
+
+      scales: {
+        xAxes: [{
+          type: 'time',
+          distribution: 'series',
+          display: false,
+          ticks: {
+                minRotation: 90,
+                autoskip: false,
+                autoSkipPadding: 0
+              },
+          fontSize:5,
+          gridLines: {
+         color: "rgba(255, 255, 255, 0)",
+           }
+        }],
+        yAxes: [{
+          display: false,
+          gridLines: {}
+        }]
+      },
+
+      tooltips: {
+        mode: 'index',
+        callbacks: {
+          //This removes the tooltip title
+          // title: function() {}
+       },
+        //this removes legend color
+        displayColors: true,
+        yPadding: 10,
+        xPadding: 10,
+        position: 'nearest',
+        caretSize: 10,
+        backgroundColor: 'rgba(255,255,255,.4)',
+        bodyFontSize: 15,
+        bodyFontColor: '#ffffff' 
+      }
+    }
+  });
+}
+
+
+
+
+
+/// Update current price ///
+async function updateEthereumPrice() {
+  let { times, prices, opens } = await ethereumData()
+  let currentOpen = opens[0];
+  let currentPrice = prices[prices.length-1].toFixed(2);
+  let currentChange = (currentPrice - currentOpen)/currentOpen;
+
+  document.getElementById("ethPrice").innerHTML = "$" + currentPrice;
+  document.getElementById("ethChange").innerHTML = (currentChange*100).toFixed(2) + "%";
+  
+    if (currentChange < 0) {
+   ethChange.style.color = 'red';
+   ethChange.rawFloat = currentChange;
+   } else {
+   ethChange.style.color = 'lime';
+   ethChange.rawFloat = currentChange;
+   }
+}
+
+async function updateCosmosPrice() {
+  let { times, prices,opens } = await cosmosData()
+  let currentOpen = opens[0];
+  let currentPrice = prices[prices.length-1].toFixed(2);
+  let currentChange = (currentPrice - currentOpen)/currentOpen;
+
+  document.getElementById("atomPrice").innerHTML = "$" + currentPrice;
+  document.getElementById("atomChange").innerHTML = (currentChange*100).toFixed(2) + "%";
+  
+     if (currentChange < 0) {
+   atomChange.style.color = 'red';
+   atomChange.rawFloat = currentChange;
+   } else {
+   atomChange.style.color = 'lime';
+   atomChange.rawFloat = currentChange;
+   }
+  
+}
+
+async function updateBitcoinPrice() {
+  let { times, prices, opens } = await btcData()
+   let currentOpen = opens[0];
+  let currentPrice = prices[prices.length-1].toFixed(2);
+  let currentChange = (currentPrice - currentOpen)/currentOpen;
+
+  document.getElementById("btcPrice").innerHTML = "$" + currentPrice;
+  document.getElementById("btcChange").innerHTML = (currentChange*100).toFixed(2) + "%";
+  
+    if (currentChange < 0) {
+   btcChange.style.color = 'red';
+   btcChange.rawFloat = currentChange;
+   } else {
+   btcChange.style.color = 'lime';
+   btcChange.rawFloat = currentChange;
+   }
+  
+}
+
+async function updateSolanaPrice() {
+  let { times, prices, opens } = await solanaData()
+   let currentOpen = opens[0];
+  let currentPrice = prices[prices.length-1].toFixed(2);
+  let currentChange = (currentPrice - currentOpen)/currentOpen;
+
+  document.getElementById("solPrice").innerHTML = "$" + currentPrice;
+   document.getElementById("solChange").innerHTML = (currentChange*100).toFixed(2) + "%";
+  
+    if (currentChange < 0) {
+   solChange.style.color = 'red';
+   solChange.rawFloat = currentChange;
+   } else {
+   solChange.style.color = 'lime';
+   solChange.rawFloat = currentChange;
+   }
+}
+
+
+
+updateEthereumPrice()
+updateCosmosPrice()
+updateBitcoinPrice()
+updateSolanaPrice()
+
+printBtcChart()
+printCosmosChart()
+printEthereumChart()
+printSolanaChart()
+
+</script>
+
+
+
+</html>
